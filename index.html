@@ -9,75 +9,141 @@
 </head>
 
 <body>
-    <h1>Money Box</h1>
-    <form onsubmit="checkpin(); return false">
-        Enter your pin: <input type="number" id="userinputpin" required>
-        <button>confirm</button>
+    <form onsubmit="checkPin(); return false">
+
+        <h1>Money Box</h1>
+        <hr>
+        Enter your Pin:
+        <input type="type" id="userinputPin" required>
+        <button>conform</button>
     </form>
+
     <h4 id="errorMessage"></h4>
+
     <div id="homeScreen"></div>
+    <div id="errorMessage"></div>
+    <div id="enoughMoney"></div>
+    <div id="moneyBox">Money Box:22000</div>
+    <div id="cardDailylimit">Daily Card limit:20000</div>
+    <div id="accountBalance">Account Balance: 50000</div>
+
+
     <script>
+        let moneyBox = 22000;
+        let cardDailylimit = 20000;
+        let accountBalance = 50000;
 
-        let moneyBox = 22000; // amount in ATM machine
-        let cardDailyLimit = 20000; // limit to withdraw money
-        let accountBalance = 50000; // account balance
-    
-        function checkpin() {
-            console.log("I am checking pin");
-            let userinputpin = document.querySelector("#userinputpin").value;
+        function checkPin() {
+            console.log("I am checking Pin");
 
+            let userinputPin = document.querySelector("#userinputPin").value;
 
-            if (userinputpin.length < 4) {
-                document.querySelector("#errorMessage").innerHTML = "you must enter 4 digit pin number";
+            if (userinputPin.length < 4) {
+                document.querySelector("#errorMessage").innerHTML = `You must Enter 4 digit pin number`
                 return;
             }
-            if (userinputpin.length > 4) {
-                document.querySelector("#errorMessage").innerHTML = `you must enter 4 digit pin number`;
+            if (userinputPin.length > 4) {
+                document.querySelector("#errorMessage").innerHTML = `You must Enter 4 digit pin number`
                 return;
             }
-            if (userinputpin === "2022") {
-                document.querySelector("#errorMessage").innerHTML = `correct pin number ✅`;
+            if (userinputPin === "2022") {
+                document.querySelector("#errorMessage").innerHTML = `Correct pin number✅`
 
-                document.getElementById("homeScreen").innerHTML =
-                    `<form onsubmit="withdraw(); return false">
-                        Enter your amount to withdraw: <input type="number" id="userinputamount" required>
-                            <button>withdraw</button>
-                    </form>`
+                document.querySelector("#homeScreen").innerHTML = `
+                
+                <form onsubmit="withdraw(); return false">
+ 
+                Enter your amount to withdraw:
+                <input type="number" id="userInputAmount" required>
+                <button>withdraw</button>
+                </form>
+                
+                
+                `
                 return;
             }
-            if (userinputpin !== "2022") {
-                document.querySelector("#errorMessage").innerHTML = `incorrect pin number ❌`;
+            if (userinputPin !== "2022") {
+                document.querySelector("#errorMessage").innerHTML = `Incorrect pin number❌`
                 return;
             }
+
 
         }
-       function withdraw() {
-            console.log("withdraw money");
-            let amount = document.querySelector("#userinputamount").value;
 
-            if (amount > moneyBox) {
-                document.querySelector("#errorMessage").innerHTML = `insufficient balance❌`;
-                return;
-            }
-            if (amount > cardDailyLimit) {
-                document.querySelector("#errrorMessage").innerHTML = `daily withdraw limit is over ❌`;
-                return;
-            }
-            if (amount > accountBalance) {
-                document.querySelector("#errrorMessage").innerHTML = `insufficient balance in account ❌`;
+        function withdraw() {
+            console.log("Withdraw funtion running...");
+
+            let userInputAmount = +document.querySelector("#userInputAmount").value;
+
+            if (userInputAmount > moneyBox) {
+                document.querySelector("#enoughMoney").innerHTML = `This machine don't have enough money, please try smaller amount`
                 return;
             }
 
 
+            if (userInputAmount > cardDailylimit) {
+                document.querySelector("#enoughMoney").innerHTML = `Daily card limit is Rs.20000, please enter under Daily card limit amount.`
+                return;
+            }
 
-        } 
+            if (userInputAmount > accountBalance) {
+                document.querySelector("#enoughMoney").innerHTML = `Your account balance ${accountBalance} is less than your withdrawal amount..`
+                return;
+            }
 
-        
 
+
+            if (userInputAmount < "500") {
+                document.querySelector("#enoughMoney").innerHTML = `Please enter more than 500Rs`
+                return;
+            }
+
+            if (userInputAmount % 500) {
+                document.querySelector("#enoughMoney").innerHTML = `Please Enter 500 multiply means 500, 1000, 1500, 2000 etc`
+                return;
+                
+            }
+          
+            else {
+                document.querySelector("#enoughMoney").innerHTML = `Withdraw has been Done successfully 👍`
+
+                moneyBox = moneyBox - userInputAmount;
+                cardDailylimit = cardDailylimit - userInputAmount;
+                accountBalance = accountBalance - userInputAmount;
+
+                console.log(moneyBox, cardDailylimit, accountBalance)
+
+                document.getElementById("moneyBox").innerHTML = moneyBox;
+                document.getElementById("cardDailylimit").innerHTML = cardDailylimit;
+                document.getElementById("accountBalance").innerHTML = accountBalance;
+                return;
+            }
+
+
+
+        }
+
+        document.getElementById("moneyBox").innerHTML = moneyBox;
+        document.getElementById("cardDailylimit").innerHTML = cardDailylimit;
+        document.getElementById("accountBalance").innerHTML = accountBalance;
 
 
 
     </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>
